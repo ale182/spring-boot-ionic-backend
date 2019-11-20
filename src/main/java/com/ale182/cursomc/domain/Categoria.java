@@ -39,7 +39,7 @@ public class Categoria implements Serializable {
 	}
 
 	public void setId(Integer id) {
-		id = id;
+		this.id = id;
 	}
 
 	public String getNome() {
@@ -47,7 +47,7 @@ public class Categoria implements Serializable {
 	}
 
 	public void setNome(String nome) {
-		nome = nome;
+		this.nome = nome;
 	}
 
 	public List<Produto> getProdutos() {
