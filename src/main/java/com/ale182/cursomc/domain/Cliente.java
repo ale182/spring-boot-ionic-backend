@@ -52,7 +52,9 @@ public class Cliente implements Serializable {
 		this.nome = nome;
 		this.email = email;
 		this.cpfOuCnpj = cpfOuCnpj;
-		this.tipo = tipo.getCod();
+		// faz uma condicao quando o TipoCodigo for nulo, pra mandar nulo no INSERT , devido ao PUT via service
+		// ANTERIOR = this.tipo = tipo.getCod();
+		this.tipo = (tipo==null) ? null : tipo.getCod();
 	}
 
 	public Integer getId() {
