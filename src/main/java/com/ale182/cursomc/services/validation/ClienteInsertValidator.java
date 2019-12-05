@@ -6,8 +6,12 @@ import java.util.List;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.ale182.cursomc.domain.Cliente;
 import com.ale182.cursomc.domain.enums.TipoCliente;
 import com.ale182.cursomc.dto.ClienteNewDTO;
+import com.ale182.cursomc.repositories.ClienteRepository;
 import com.ale182.cursomc.resources.exception.FieldMessage;
 import com.ale182.cursomc.services.validation.utils.BR;
 
@@ -18,7 +22,10 @@ public class ClienteInsertValidator implements ConstraintValidator<ClienteInsert
 	@Override
 	public void initialize(ClienteInsert ann) {
 	}
-
+	
+	@Autowired
+	private ClienteRepository repo;
+	
 	@Override
 	public boolean isValid(ClienteNewDTO objDto, ConstraintValidatorContext context) {
 		List<FieldMessage> list = new ArrayList<>();
@@ -36,6 +43,11 @@ public class ClienteInsertValidator implements ConstraintValidator<ClienteInsert
 			list.add(new FieldMessage("cpfOuCnpj","CNPJ Invalido"));
 		}
 		
+		Cliente aux = repo.findByEmail(objDto.getEmail());
+		// se objeto <> de nulo indica q ele encontrou objeto através do email, ou seja, ele já é cadastrado
+		if (aux != null) {
+			list.add(new FieldMessage("email","E-mail já existe"));
+		}
 		
 		// esse for adiciona os erros personalizados aos erros do framework, para usar os recursos dele
 		for (FieldMessage e : list) {
